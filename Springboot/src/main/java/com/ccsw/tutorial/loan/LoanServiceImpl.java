@@ -52,7 +52,6 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public Page<Loan> find(LoanSearchDto dto) {
 
-        System.out.print("La fecha es: " + dto.getDate());
         LoanSpecification gameSpec = new LoanSpecification(new SearchCriteria("game.id", ":", dto.getGameId()));
         LoanSpecification clientSpec = new LoanSpecification(new SearchCriteria("client.id", ":", dto.getClientId()));
         LoanSpecification initDateSpec = new LoanSpecification(new SearchCriteria("initDate", ">=", dto.getDate()));
@@ -103,28 +102,6 @@ public class LoanServiceImpl implements LoanService {
                 }
             }
         }
-        /*
-         * for (LocalDateTime day = LocalDateTime.of(dto.getInitDate().getYear(),
-         * dto.getInitDate().getMonth(), dto.getInitDate().getDayOfMonth());
-         * day.compareTo(dto.getEndDate()) <= 0; day = day.plusDays(1)) {
-         * 
-         * var clientSpec = new LoanSpecification(new SearchCriteria("clientd", ":",
-         * dto.getClient().getId())); var gameSpec = new LoanSpecification(new
-         * SearchCriteria("game.id", ":", dto.getGame().getId())); var initSpec = new
-         * LoanSpecification(new SearchCriteria("initDate", "<=", day)); var endSpec =
-         * new LoanSpecification(new SearchCriteria("endDate", ">=", day));
-         * 
-         * // Comprobamos que el juego no ha sido prestado a otro cliente var spec =
-         * Specification.where(gameSpec).and(initSpec).and(endSpec); if
-         * (loanRepository.exists(spec)) throw new Exception("Game already on loan");
-         * 
-         * // Comprobamos que el cliente no tiene más de un juego en préstamo el mismo
-         * dia var spec1 = Specification.where(clientSpec).and(initSpec).and(endSpec);
-         * long ngames = loanRepository.count(spec1); if (ngames > 1) throw new
-         * Exception("Client with an active loan");
-         * 
-         * }
-         */
 
         BeanUtils.copyProperties(dto, loan, "id", "game", "client");
 
